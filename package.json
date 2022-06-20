@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0",
+    "zod": "^3.17.3"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

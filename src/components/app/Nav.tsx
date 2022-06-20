@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function NavLinks({ column = false }) {
   return (
     <ul className={`flex gap-x-12 gap-y-8 font-bold text-xl text-gray-900 ${column && "flex-col"}`}>
       <li className="hover:text-blue-500 transition-colors duration-300">
-        <a href="/login">login</a>
+        <Link to="/login">login</Link>
       </li>
       <li className="hover:text-blue-500 transition-colors duration-300">
-        <a href="/register">register</a>
+        <Link to="/register">register</Link>
       </li>
     </ul>
   );
@@ -41,14 +42,19 @@ export default function Nav() {
     }
   });
 
+  const location = useLocation();
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [location]);
+
   return (
     <nav ref={navRef} className="flex justify-between items-center gap-16">
-      <a
+      <Link
         className="font-bold text-2xl text-gray-900 hover:text-blue-500 transition-colors duration-300"
-        href="/"
+        to="/"
       >
         shorty.lol
-      </a>
+      </Link>
       {isMobile ? (
         <button
           className="font-bold text-xl text-gray-900 hover:text-blue-500 transition-colors duration-300"

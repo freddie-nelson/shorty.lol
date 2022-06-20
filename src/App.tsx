@@ -1,9 +1,21 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Nav from "@/components/app/Nav";
+import Home from "@/views/Home";
+import Login from "@/views/Login";
+import Register from "@/views/Register";
 
 export default function App() {
   return (
-    <div className="flex flex-col px-12 py-10 w-full h-full bg-gray-50">
-      <Nav />
-    </div>
+    <BrowserRouter>
+      <div className="flex flex-col px-12 py-10 w-full h-full bg-gray-50">
+        <Nav />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
