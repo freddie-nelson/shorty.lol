@@ -29,7 +29,7 @@ export default function Home() {
         className="border-4 rounded-lg p-2 h-20 border-gray-900 flex gap-2 w-11/12 max-w-lg mt-5"
       >
         <input
-          className="bg-transparent outline-none flex-grow pl-2 h-full"
+          className="bg-transparent outline-none flex-grow pl-2 h-full min-w-0"
           type="text"
           name="url"
           maxLength={2048}

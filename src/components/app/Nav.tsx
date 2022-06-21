@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-function NavLinks({ column = false }) {
+function NavLinks({ mobile = false }) {
   return (
-    <ul className={`flex gap-x-12 gap-y-8 font-bold text-xl text-gray-900 ${column && "flex-col"}`}>
+    <ul className={`flex gap-x-12 gap-y-8 font-bold text-xl text-gray-900 ${mobile && "flex-col"}`}>
+      {mobile && (
+        <li className="hover:text-blue-500 transition-colors duration-300">
+          <Link to="/">home</Link>
+        </li>
+      )}
       <li className="hover:text-blue-500 transition-colors duration-300">
         <Link to="/login">login</Link>
       </li>
@@ -15,40 +20,41 @@ function NavLinks({ column = false }) {
 }
 
 export default function Nav() {
-  const navRef = useRef<HTMLElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   const observer = new ResizeObserver(() => {
-    if (!navRef.current) return;
-
-    if (navRef.current.clientWidth < 768) {
+    if (document.body.clientWidth < 768) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
     }
   });
   useEffect(() => {
-    if (navRef.current) {
-      observer.observe(navRef.current);
-    }
-  });
+    observer.observe(document.body);
+
+    return () => {
+      observer.unobserve(document.body);
+    };
+  }, []);
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  useEffect(() => {
-    if (isMobileOpen) {
+  const toggleMobileMenu = (open: boolean) => {
+    setIsMobileOpen(open);
+
+    if (open) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-  });
+  };
 
   const location = useLocation();
   useEffect(() => {
-    setIsMobileOpen(false);
+    toggleMobileMenu(false);
   }, [location]);
 
   return (
-    <nav ref={navRef} className="flex justify-between items-center gap-16">
+    <nav className="flex justify-between items-center gap-16">
       <Link
         className="font-bold text-2xl text-gray-900 hover:text-blue-500 transition-colors duration-300"
         to="/"
@@ -58,7 +64,7 @@ export default function Nav() {
       {isMobile ? (
         <button
           className="font-bold text-xl text-gray-900 hover:text-blue-500 transition-colors duration-300"
-          onClick={() => setIsMobileOpen(true)}
+          onClick={() => toggleMobileMenu(true)}
         >
           open menu
         </button>
@@ -69,12 +75,12 @@ export default function Nav() {
         <div className="absolute top-0 left-0 bg-gray-50 w-full h-full flex justify-center items-center text-center">
           <button
             className="absolute top-10 right-12 font-bold text-xl text-gray-900 hover:text-blue-500 transition-colors duration-300"
-            onClick={() => setIsMobileOpen(false)}
+            onClick={() => toggleMobileMenu(false)}
           >
             close menu
           </button>
 
-          <NavLinks column />
+          <NavLinks mobile />
         </div>
       )}
     </nav>
