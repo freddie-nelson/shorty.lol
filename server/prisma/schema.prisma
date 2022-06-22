@@ -22,8 +22,10 @@ model ShortLink {
   slug     String @id @db.VarChar(4)
   longLink String @db.VarChar(2048)
 
-  owner  User @relation(fields: [userId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
   userId Int
+
+  Visit Visit[]
 }
 
 model Visit {
@@ -31,4 +33,7 @@ model Visit {
   createdAt DateTime @default(now())
   ip        String
   userAgent String   @db.VarChar(255)
+
+  ShortLink ShortLink @relation(fields: [slug], references: [slug])
+  slug      String    @db.VarChar(4)
 }
