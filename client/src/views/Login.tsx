@@ -1,5 +1,6 @@
 import { FormEventHandler, useState } from "react";
 import { ZodError } from "zod";
+import { useNavigate } from "react-router-dom";
 import { usernameSchema } from "@shared/schemas/username";
 import { passwordSchema } from "@shared/schemas/password";
 import useInput from "@/hooks/useInput";
@@ -8,11 +9,26 @@ import InputPassword from "@/components/shared/InputPassword";
 import FormMessage from "@/components/shared/FormMessage";
 import Label from "@/components/shared/Label";
 import Button from "@/components/shared/Button";
+import { useLogin } from "@/hooks/api/useLogin";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const { value: username, bind: bindUsername, reset: resetUsername } = useInput("");
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("");
   const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState("");
+
+  const loginMutation = useLogin(
+    (data) => {
+      setFormSuccess("Successfully logged in, redirecting...");
+    },
+    async (error) => {
+      if (error instanceof Response) {
+        setFormError(await error.text());
+      }
+    }
+  );
 
   const login: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -29,8 +45,9 @@ export default function Login() {
     }
 
     setFormError("");
+    setFormSuccess("");
 
-    console.log(username, password);
+    loginMutation.mutate({ username, password });
   };
 
   return (
@@ -58,6 +75,7 @@ export default function Login() {
           />
         </div>
 
+        {!!formSuccess && <FormMessage purpose="success">{formSuccess}</FormMessage>}
         {!!formError && <FormMessage purpose="error">{formError}</FormMessage>}
 
         <Button className="h-16 mt-1" type="submit">

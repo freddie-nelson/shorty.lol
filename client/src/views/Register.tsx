@@ -9,6 +9,8 @@ import InputPassword from "@/components/shared/InputPassword";
 import FormMessage from "@/components/shared/FormMessage";
 import Label from "@/components/shared/Label";
 import Button from "@/components/shared/Button";
+import { useRegister } from "@/hooks/api/useRegister";
+import { useLogin } from "@/hooks/api/useLogin";
 
 export default function Register() {
   const { value: email, bind: bindEmail, reset: resetEmail } = useInput("");
@@ -16,6 +18,31 @@ export default function Register() {
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("");
   const { value: confirmPassword, bind: bindConfirmPassword, reset: resetConfirmPassword } = useInput("");
   const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState("");
+
+  const loginMutation = useLogin(
+    (data) => {
+      setFormSuccess("Successfully logged in, redirecting...");
+    },
+    async (error) => {
+      if (error instanceof Response) {
+        setFormError(await error.text());
+      }
+    }
+  );
+
+  const registerMutation = useRegister(
+    (data) => {
+      console.log("register");
+      setFormSuccess("Account created, logging you in...");
+      loginMutation.mutate({ username, password });
+    },
+    async (error) => {
+      if (error instanceof Response) {
+        setFormError(await error.text());
+      }
+    }
+  );
 
   const register: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -37,8 +64,9 @@ export default function Register() {
     }
 
     setFormError("");
+    setFormSuccess("");
 
-    console.log(email, username, password, confirmPassword);
+    registerMutation.mutate({ email, username, password });
   };
 
   return (
@@ -93,6 +121,7 @@ export default function Register() {
           />
         </div>
 
+        {!!formSuccess && <FormMessage purpose="success">{formSuccess}</FormMessage>}
         {!!formError && <FormMessage purpose="error">{formError}</FormMessage>}
 
         <Button className="h-16 mt-3" type="submit">
