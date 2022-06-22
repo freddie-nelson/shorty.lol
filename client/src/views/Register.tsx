@@ -54,9 +54,9 @@ export default function Register() {
             {...bindEmail}
             name="email"
             type="email"
-            placeholder="jsmith17@example.com"
+            placeholder="jsmith@example.com"
             required
-            maxLength={255}
+            maxLength={320}
           />
         </div>
 
