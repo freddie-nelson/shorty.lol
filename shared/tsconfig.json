@@ -8,10 +8,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@shared/*": ["../shared/*"]
+      "@/*": ["src/*"]
     }
-  },
-  "include": ["src", "../shared"],
-  "exclude": ["node_modules"]
+  }
 }

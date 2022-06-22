@@ -1,8 +1,8 @@
 import { FormEventHandler, useState } from "react";
 import { ZodError } from "zod";
-import { emailSchema } from "@/schemas/email";
-import { usernameSchema } from "@/schemas/username";
-import { passwordSchema } from "@/schemas/password";
+import { emailSchema } from "@shared/schemas/email";
+import { usernameSchema } from "@shared/schemas/username";
+import { passwordSchema } from "@shared/schemas/password";
 import useInput from "@/hooks/useInput";
 import InputText from "@/components/shared/InputText";
 import InputPassword from "@/components/shared/InputPassword";

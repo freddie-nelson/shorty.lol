@@ -22,8 +22,8 @@ model ShortLink {
   slug     String @id @db.VarChar(4)
   longLink String @db.VarChar(2048)
 
-  User   User @relation(fields: [userId], references: [id])
-  userId Int
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
 
   Visit Visit[]
 }

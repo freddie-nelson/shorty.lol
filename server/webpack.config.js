@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   entry: "./src/index.ts",
   target: "node",
@@ -13,6 +15,10 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@shared": path.resolve(__dirname, "../shared"),
+    },
   },
   output: {
     filename: "index.js",
