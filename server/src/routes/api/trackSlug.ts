@@ -50,6 +50,7 @@ const controller: RequestHandler = async (req, res) => {
     createdAt: shortLink.createdAt,
     longLink: shortLink.longLink,
     visits,
+    editable: shortLink.userId && token?.userId === shortLink.userId,
   });
 };
 
