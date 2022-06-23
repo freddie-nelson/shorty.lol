@@ -13,7 +13,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <div className="flex flex-col px-5 py-4 sm:px-8 sm:py-6 md:px-12 md:py-10 w-full h-full bg-gray-50">
+        <div className="flex flex-col px-5 py-4 sm:px-8 sm:py-6 md:px-12 md:py-10 w-full min-h-full bg-gray-50">
           <Nav />
 
           <Routes>

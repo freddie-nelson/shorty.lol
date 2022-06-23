@@ -2,9 +2,9 @@ import { Router } from "express";
 import { useRoute } from "@/hooks/useRoute";
 import register from "@/routes/auth/register";
 import login from "@/routes/auth/login";
-import getUser from "@/routes/auth/getUser";
+import logout from "@/routes/auth/logout";
 
 export const authRouter = Router();
 useRoute(authRouter, register);
 useRoute(authRouter, login);
-useRoute(authRouter, getUser);
+useRoute(authRouter, logout);

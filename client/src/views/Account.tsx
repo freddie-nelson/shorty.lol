@@ -1,11 +1,14 @@
 import GradientAvatar from "@/components/app/GradientAvatar";
 import LinkShortener from "@/components/app/LinkShortener";
+import LinksList from "@/components/app/LinksList";
 import Button from "@/components/shared/Button";
 import FormMessage from "@/components/shared/FormMessage";
 import { useGetUser } from "@/hooks/api/useGetUser";
+import { useLogout } from "@/hooks/api/useLogout";
 
 export default function Account() {
   const { isLoading, isError, data, error } = useGetUser();
+  const logoutMutation = useLogout();
 
   if (isLoading) {
     return (
@@ -35,8 +38,12 @@ export default function Account() {
 
         <div className="flex lg:flex-col gap-3 lg:ml-auto">
           <Button className="p-3 flex-grow lg:flex-grow-0">change password</Button>
-          <Button className="p-3 flex-grow lg:flex-grow-0" purpose="danger">
-            delete account
+          <Button
+            className="p-3 flex-grow lg:flex-grow-0"
+            purpose="danger"
+            onClick={() => logoutMutation.mutate()}
+          >
+            {logoutMutation.isLoading ? "logging out..." : "log out"}
           </Button>
         </div>
       </div>
@@ -44,6 +51,7 @@ export default function Account() {
       <LinkShortener className="mt-7 lg:mt-10" />
 
       <h1 className="font-bold text-3xl mt-6">your links</h1>
+      <LinksList className="mt-6" />
     </main>
   );
 }
