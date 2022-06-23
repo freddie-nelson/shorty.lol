@@ -3,7 +3,7 @@ import { Route } from "../route";
 import { loginUserSchema } from "@shared/schemas/loginUser";
 import { prisma } from "@/db/client";
 import { User } from ".prisma/client";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 
 const controller: RequestHandler = async (req, res) => {

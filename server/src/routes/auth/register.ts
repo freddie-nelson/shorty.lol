@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { Route } from "../route";
 import { registerUserSchema } from "@shared/schemas/registerUser";
 import { prisma } from "@/db/client";

@@ -8,8 +8,15 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
         exclude: /node_modules/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              configFile: path.resolve(__dirname, "tsconfig.production.json"),
+            },
+          },
+        ],
       },
     ],
   },
@@ -17,11 +24,11 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@shared": path.resolve(__dirname, "../shared"),
+      "@shared": path.resolve(__dirname, "./shared"),
     },
   },
   output: {
     filename: "index.js",
-    path: __dirname,
+    path: path.resolve(__dirname, "dist"),
   },
 };
