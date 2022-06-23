@@ -6,8 +6,7 @@ import { prisma } from "@/db/client";
 
 const controller: RequestHandler = async (req, res) => {
   const parsedBody = registerUserSchema.safeParse(req.body);
-  // '=== false' for type inference
-  if (parsedBody.success === false) {
+  if (!parsedBody.success) {
     res.status(400).send(parsedBody.error.issues[0].message);
     return;
   }

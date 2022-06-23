@@ -1,5 +1,5 @@
 import { FormEventHandler, useState } from "react";
-import { ZodError } from "zod";
+import { string, ZodError } from "zod";
 import { emailSchema } from "@shared/schemas/email";
 import { usernameSchema } from "@shared/schemas/username";
 import { passwordSchema } from "@shared/schemas/password";
@@ -17,55 +17,56 @@ export default function Register() {
   const { value: username, bind: bindUsername, reset: resetUsername } = useInput("");
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("");
   const { value: confirmPassword, bind: bindConfirmPassword, reset: resetConfirmPassword } = useInput("");
-  const [formError, setFormError] = useState("");
-  const [formSuccess, setFormSuccess] = useState("");
+  const [formMessage, setFormMessage] = useState<{
+    message: string;
+    purpose: "success" | "error" | "neutral";
+  }>();
 
   const loginMutation = useLogin(
     (data) => {
-      setFormSuccess("Successfully logged in, redirecting...");
+      setFormMessage({ message: "Successfully logged in, redirecting...", purpose: "success" });
     },
     async (error) => {
       if (error instanceof Response) {
-        setFormError(await error.text());
+        setFormMessage({ message: await error.text(), purpose: "error" });
       }
     }
   );
 
   const registerMutation = useRegister(
     (data) => {
-      console.log("register");
-      setFormSuccess("Account created, logging you in...");
+      setFormMessage({ message: "Account created, logging you in...", purpose: "success" });
       loginMutation.mutate({ username, password });
     },
     async (error) => {
       if (error instanceof Response) {
-        setFormError(await error.text());
+        setFormMessage({ message: await error.text(), purpose: "error" });
       }
     }
   );
 
   const register: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if (registerMutation.isLoading || loginMutation.isLoading) return;
+
     try {
       emailSchema.parse(email);
       usernameSchema.parse(username);
       passwordSchema.parse(password);
     } catch (error) {
       if (error instanceof ZodError) {
-        setFormError(error.issues[0].message);
+        setFormMessage({ message: error.issues[0].message, purpose: "error" });
         return;
       }
 
       throw error;
     }
     if (password !== confirmPassword) {
-      setFormError("Passwords do not match.");
+      setFormMessage({ message: "Passwords do not match.", purpose: "error" });
       return;
     }
 
-    setFormError("");
-    setFormSuccess("");
-
+    setFormMessage({ message: "Creating account...", purpose: "neutral" });
     registerMutation.mutate({ email, username, password });
   };
 
@@ -121,8 +122,7 @@ export default function Register() {
           />
         </div>
 
-        {!!formSuccess && <FormMessage purpose="success">{formSuccess}</FormMessage>}
-        {!!formError && <FormMessage purpose="error">{formError}</FormMessage>}
+        {!!formMessage && <FormMessage purpose={formMessage.purpose}>{formMessage.message}</FormMessage>}
 
         <Button className="h-16 mt-3" type="submit">
           create account

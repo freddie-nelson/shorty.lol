@@ -8,14 +8,13 @@ const controller: RequestHandler = async (req, res) => {
   const slug = req.params.slug;
   const parsedSlug = slugSchema.safeParse(slug);
 
-  // '=== false' for type inference
-  if (parsedSlug.success === false) {
+  if (!parsedSlug.success) {
     res.status(400).send(parsedSlug.error.issues[0].message);
     return;
   }
 
   // find short link from slug
-  let shortLink: ShortLink | undefined;
+  let shortLink: ShortLink | null = null;
   try {
     shortLink = await prisma.shortLink.findUnique({ where: { slug } });
   } catch (error) {
@@ -32,7 +31,7 @@ const controller: RequestHandler = async (req, res) => {
   // track visitors
   try {
     await prisma.visit.create({
-      data: { ip: req.ip, userAgent: req.headers["user-agent"].slice(0, 255) || "", slug },
+      data: { ip: req.ip, userAgent: req.headers["user-agent"]?.slice(0, 255) || "", slug },
     });
   } catch (error) {
     console.log(error);

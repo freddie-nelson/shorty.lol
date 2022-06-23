@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export function useLogin(
   onSuccess?: (data: { email: string; username: string }) => void,
-  onError?: (error: unknown) => void
+  onError?: (error: any) => void
 ) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();

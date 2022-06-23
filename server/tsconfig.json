@@ -10,7 +10,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@shared/*": ["../shared/*"]
-    }
+    },
+    "strict": true
   },
   "include": ["src", "../shared"],
   "exclude": ["node_modules"]

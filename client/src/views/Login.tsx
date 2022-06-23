@@ -16,36 +16,39 @@ export default function Login() {
 
   const { value: username, bind: bindUsername, reset: resetUsername } = useInput("");
   const { value: password, bind: bindPassword, reset: resetPassword } = useInput("");
-  const [formError, setFormError] = useState("");
-  const [formSuccess, setFormSuccess] = useState("");
+  const [formMessage, setFormMessage] = useState<{
+    message: string;
+    purpose: "success" | "error" | "neutral";
+  }>();
 
   const loginMutation = useLogin(
     (data) => {
-      setFormSuccess("Successfully logged in, redirecting...");
+      setFormMessage({ message: "Successfully logged in, redirecting...", purpose: "success" });
     },
     async (error) => {
       if (error instanceof Response) {
-        setFormError(await error.text());
+        setFormMessage({ message: await error.text(), purpose: "error" });
       }
     }
   );
 
   const login: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if (loginMutation.isLoading) return;
+
     try {
       usernameSchema.parse(username);
       passwordSchema.parse(password);
     } catch (error) {
       if (error instanceof ZodError) {
-        setFormError(error.issues[0].message);
+        setFormMessage({ message: error.issues[0].message, purpose: "error" });
         return;
       }
 
       throw error;
     }
 
-    setFormError("");
-    setFormSuccess("");
+    setFormMessage({ message: "Logging in...", purpose: "neutral" });
 
     loginMutation.mutate({ username, password });
   };
@@ -75,8 +78,7 @@ export default function Login() {
           />
         </div>
 
-        {!!formSuccess && <FormMessage purpose="success">{formSuccess}</FormMessage>}
-        {!!formError && <FormMessage purpose="error">{formError}</FormMessage>}
+        {!!formMessage && <FormMessage purpose={formMessage.purpose}>{formMessage.message}</FormMessage>}
 
         <Button className="h-16 mt-1" type="submit">
           sign in

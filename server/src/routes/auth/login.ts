@@ -8,8 +8,7 @@ import * as jwt from "jsonwebtoken";
 
 const controller: RequestHandler = async (req, res) => {
   const parsedBody = loginUserSchema.safeParse(req.body);
-  // '=== false' used for type inference
-  if (parsedBody.success === false) {
+  if (!parsedBody.success) {
     res.status(400).send(parsedBody.error.issues[0].message);
     return;
   }
@@ -17,7 +16,7 @@ const controller: RequestHandler = async (req, res) => {
   const info = parsedBody.data;
 
   // find user in db
-  let user: User | undefined;
+  let user: User | null = null;
   try {
     user = await prisma.user.findUnique({ where: { username: info.username } });
   } catch (error) {
@@ -39,6 +38,11 @@ const controller: RequestHandler = async (req, res) => {
   }
 
   // create jwt and cookie
+  if (!process.env.JWT_SECRET) {
+    res.status(500).send("Could not create authentication token.");
+    return;
+  }
+
   const daysToExpire = 14;
   const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, {
     expiresIn: daysToExpire * 24 * 60 * 60,
