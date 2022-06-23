@@ -4,9 +4,11 @@ import createSlug from "../routes/api/createSlug";
 import trackSlug from "@/routes/api/trackSlug";
 import getUser from "@/routes/api/getUser";
 import getLinks from "@/routes/api/getLinks";
+import deleteSlug from "@/routes/api/deleteSlug";
 
 export const apiRouter = Router();
 useRoute(apiRouter, createSlug);
 useRoute(apiRouter, trackSlug);
+useRoute(apiRouter, deleteSlug);
 useRoute(apiRouter, getUser);
 useRoute(apiRouter, getLinks);

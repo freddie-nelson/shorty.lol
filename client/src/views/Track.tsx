@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import FormMessage from "@/components/shared/FormMessage";
 import { useTrackSlug } from "@/hooks/api/useTrackSlug";
 import GradientAvatar from "@/components/app/GradientAvatar";
@@ -6,11 +6,21 @@ import { Icon } from "@iconify/react";
 import calendarIcon from "@iconify-icons/uil/calender";
 import visitsIcon from "@iconify-icons/uil/eye";
 import Button from "@/components/shared/Button";
+import { useDeleteSlug } from "@/hooks/api/useDeleteSlug";
+// import { useEditSlug } from "@/hooks/api/useEditSlug";
 
 export default function Track() {
+  const navigate = useNavigate();
   const params = useParams();
+
   const slug = params.slug as string;
   const { isLoading, isError, data, error } = useTrackSlug(slug);
+
+  const deleteSlugMutation = useDeleteSlug(() => {
+    navigate("/account");
+  });
+
+  // const editSlugMutation = useEditSlug();
 
   if (isLoading) {
     return (
@@ -30,7 +40,7 @@ export default function Track() {
 
   return (
     <main className="flex flex-col justify-center items-center flex-grow">
-      <div className="flex flex-col gap-5 md:gap-0 md:flex-row items-center max-w-2xl w-11/12">
+      <div className="flex flex-col gap-5 md:gap-0 md:flex-row items-center max-w-3xl w-11/12">
         <div className="flex items-center w-full md:w-auto">
           <GradientAvatar className="w-28 h-28" seed={slug} />
 
@@ -75,9 +85,13 @@ export default function Track() {
           )}
           {data?.editable && (
             <>
-              <Button className="p-3 flex-grow md:flex-grow-0">edit slug</Button>
-              <Button className="p-3 flex-grow md:flex-grow-0" purpose="danger">
-                delete
+              {/* <Button className="p-3 flex-grow md:flex-grow-0">edit slug</Button> */}
+              <Button
+                className="p-3 flex-grow md:flex-grow-0"
+                purpose="danger"
+                onClick={() => deleteSlugMutation.mutate({ slug })}
+              >
+                {deleteSlugMutation.isLoading ? "deleting..." : "delete"}
               </Button>
             </>
           )}

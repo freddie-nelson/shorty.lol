@@ -27,7 +27,7 @@ const controller: RequestHandler = async (req, res) => {
         createdAt: "desc",
       },
       skip: (page - 1) * perPage,
-      take: perPage,
+      take: perPage + 1,
     });
   } catch (error) {
     console.log(error);
@@ -36,7 +36,7 @@ const controller: RequestHandler = async (req, res) => {
   }
 
   // success
-  res.status(200).json(links);
+  res.status(200).json({ hasMore: links.length > perPage, links: links.slice(0, perPage) });
 };
 
 export default <Route>{

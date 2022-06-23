@@ -1,6 +1,6 @@
 import GradientAvatar from "@/components/app/GradientAvatar";
 import LinkShortener from "@/components/app/LinkShortener";
-import LinksList from "@/components/app/LinksList";
+import LinksList from "@/components/app/LinksList/LinksList";
 import Button from "@/components/shared/Button";
 import FormMessage from "@/components/shared/FormMessage";
 import { useGetUser } from "@/hooks/api/useGetUser";
@@ -37,9 +37,9 @@ export default function Account() {
         </div>
 
         <div className="flex lg:flex-col gap-3 lg:ml-auto">
-          <Button className="p-3 flex-grow lg:flex-grow-0">change password</Button>
+          {/* <Button className="p-3 flex-grow lg:flex-grow-0">change password</Button> */}
           <Button
-            className="p-3 flex-grow lg:flex-grow-0"
+            className="py-3 px-5 flex-grow lg:flex-grow-0"
             purpose="danger"
             onClick={() => logoutMutation.mutate()}
           >
