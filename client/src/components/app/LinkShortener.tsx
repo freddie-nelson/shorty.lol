@@ -1,6 +1,6 @@
 import { useCreateSlug } from "@/hooks/api/useCreateSlug";
 import useInput from "@/hooks/useInput";
-import { z } from "@shared/node_modules/zod";
+import { z } from "zod";
 import { FormEventHandler, HTMLAttributes, useState } from "react";
 import { useNavigate } from "react-router";
 import Button from "../shared/Button";
