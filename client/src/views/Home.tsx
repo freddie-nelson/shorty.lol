@@ -4,10 +4,13 @@ import useInput from "@/hooks/useInput";
 import Button from "@/components/shared/Button";
 import { useCreateSlug } from "@/hooks/api/useCreateSlug";
 import FormMessage from "@/components/shared/FormMessage";
+import { useNavigate } from "react-router-dom";
 
 const urlSchema = z.string().trim().url();
 
 export default function Home() {
+  const navigate = useNavigate();
+
   const { value, bind, reset } = useInput("");
   const [formMessage, setFormMessage] = useState<{
     message: string;
@@ -17,11 +20,10 @@ export default function Home() {
   const createSlugMutation = useCreateSlug(
     (data) => {
       setFormMessage({ message: "Link shortened, redirecting...", purpose: "success" });
+      navigate(`/track/${data.slug}`);
     },
     async (error) => {
-      if (error instanceof Response) {
-        setFormMessage({ message: await error.text(), purpose: "error" });
-      }
+      setFormMessage({ message: error?.message, purpose: "error" });
     }
   );
 

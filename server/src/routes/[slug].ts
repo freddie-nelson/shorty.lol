@@ -1,6 +1,6 @@
 import { ShortLink } from ".prisma/client";
 import { prisma } from "@/db/client";
-import { slugSchema } from "@/schemas/slug";
+import { slugSchema } from "@shared/schemas/slug";
 import { RequestHandler } from "express";
 import { Route } from "./route";
 

@@ -7,11 +7,11 @@ export const fetcher = (path: string, method: "GET" | "POST" | "PATCH" | "DELETE
       "Content-Type": typeof body === "object" ? "application/json" : "text/plain",
     },
     body: typeof body === "object" ? JSON.stringify(body) : body + "",
-  }).then((res) => {
+  }).then(async (res) => {
     if (res.status >= 400) {
-      return new Promise<Response>((resolve, reject) => reject(res));
+      throw new Error(await res.text());
     }
 
-    return new Promise<Response>((resolve) => resolve(res));
+    return res.headers.get("Content-Type") === "application/json" ? await res.json() : await res.text();
   });
 };

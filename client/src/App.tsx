@@ -4,6 +4,7 @@ import Nav from "@/components/app/Nav";
 import Home from "@/views/Home";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
+import Track from "@/views/Track";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/track/:slug" element={<Track />} />
           </Routes>
         </div>
       </BrowserRouter>

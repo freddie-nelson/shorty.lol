@@ -26,9 +26,7 @@ export default function Login() {
       setFormMessage({ message: "Successfully logged in, redirecting...", purpose: "success" });
     },
     async (error) => {
-      if (error instanceof Response) {
-        setFormMessage({ message: await error.text(), purpose: "error" });
-      }
+      setFormMessage({ message: error?.message, purpose: "error" });
     }
   );
 

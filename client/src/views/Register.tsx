@@ -27,9 +27,7 @@ export default function Register() {
       setFormMessage({ message: "Successfully logged in, redirecting...", purpose: "success" });
     },
     async (error) => {
-      if (error instanceof Response) {
-        setFormMessage({ message: await error.text(), purpose: "error" });
-      }
+      setFormMessage({ message: error?.message, purpose: "error" });
     }
   );
 
@@ -39,9 +37,7 @@ export default function Register() {
       loginMutation.mutate({ username, password });
     },
     async (error) => {
-      if (error instanceof Response) {
-        setFormMessage({ message: await error.text(), purpose: "error" });
-      }
+      setFormMessage({ message: error?.message, purpose: "error" });
     }
   );
 
@@ -71,7 +67,7 @@ export default function Register() {
   };
 
   return (
-    <main className="flex flex-col justify-center items-center flex-grow ">
+    <main className="flex flex-col justify-center items-center flex-grow">
       <h1 className="font-bold text-3xl text-center mb-4">register</h1>
 
       <form className="flex flex-col gap-3 w-11/12 max-w-md" onSubmit={register}>
