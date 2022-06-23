@@ -2,8 +2,8 @@ import seedrandom from "seedrandom";
 import randomColor from "randomcolor";
 import tinygradient from "tinygradient";
 
-export default function SlugAvatar(props: { slug: string; className?: string }) {
-  const random = seedrandom(props.slug);
+export default function GradientAvatar(props: { seed: string; className?: string }) {
+  const random = seedrandom(props.seed);
   const count = Math.floor(random() * 2) + 2; // seeded random number from 2 to 3
 
   const colors: string[] = [];

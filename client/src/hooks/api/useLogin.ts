@@ -11,10 +11,9 @@ export function useLogin(
 
   return useMutation((data: { username: string; password: string }) => fetcher("/auth/login", "POST", data), {
     onSuccess: async (data) => {
-      console.log("login");
-      navigate("/");
+      navigate("/account");
       queryClient.invalidateQueries("getUser");
-      if (onSuccess) onSuccess(await data.json());
+      if (onSuccess) onSuccess(data);
     },
     onError,
   });

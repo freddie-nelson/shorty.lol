@@ -1,7 +1,10 @@
+import { useGetUser } from "@/hooks/api/useGetUser";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function NavLinks({ mobile = false }) {
+  const { isLoading, isError, data: user, error } = useGetUser();
+
   return (
     <ul className={`flex gap-x-12 gap-y-8 font-bold text-xl text-gray-900 ${mobile && "flex-col"}`}>
       {mobile && (
@@ -9,12 +12,22 @@ function NavLinks({ mobile = false }) {
           <Link to="/">home</Link>
         </li>
       )}
-      <li className="hover:text-blue-500 transition-colors duration-300">
-        <Link to="/login">login</Link>
-      </li>
-      <li className="hover:text-blue-500 transition-colors duration-300">
-        <Link to="/register">register</Link>
-      </li>
+
+      {!user && (
+        <>
+          <li className="hover:text-blue-500 transition-colors duration-300">
+            <Link to="/login">login</Link>
+          </li>
+          <li className="hover:text-blue-500 transition-colors duration-300">
+            <Link to="/register">register</Link>
+          </li>
+        </>
+      )}
+      {!!user && (
+        <li className="hover:text-blue-500 transition-colors duration-300">
+          <Link to="/account">account</Link>
+        </li>
+      )}
     </ul>
   );
 }

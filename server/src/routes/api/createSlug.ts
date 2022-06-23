@@ -24,6 +24,7 @@ const controller: RequestHandler = async (req, res) => {
       const exists = await prisma.shortLink.findUnique({ where: { slug } });
       taken = !!exists;
     } catch (error) {
+      console.log(error);
       res.status(500).send("Failed to generate slug.");
       return;
     }
@@ -33,6 +34,7 @@ const controller: RequestHandler = async (req, res) => {
   try {
     await prisma.shortLink.create({ data: { slug, longLink, userId: token?.userId } });
   } catch (error) {
+    console.log(error);
     res.status(500).send("Failed to create short link.");
     return;
   }

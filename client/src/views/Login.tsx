@@ -52,7 +52,7 @@ export default function Login() {
   };
 
   return (
-    <main className="flex flex-col justify-center items-center flex-grow ">
+    <main className="flex flex-col justify-center items-center flex-grow">
       <h1 className="font-bold text-3xl text-center mb-4">login</h1>
 
       <form className="flex flex-col gap-3 w-11/12 max-w-md" onSubmit={login}>

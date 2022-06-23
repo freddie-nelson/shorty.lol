@@ -20,6 +20,7 @@ const controller: RequestHandler = async (req, res) => {
   try {
     shortLink = await prisma.shortLink.findUnique({ where: { slug } });
   } catch (error) {
+    console.log(error);
     res.status(500).send("Failed to contact database.");
     return;
   }
@@ -40,6 +41,7 @@ const controller: RequestHandler = async (req, res) => {
   try {
     visits = await prisma.visit.count({ where: { slug } });
   } catch (error) {
+    console.log(error);
     res.status(500).send("Failed to calculate short link visits.");
     return;
   }

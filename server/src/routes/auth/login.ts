@@ -39,11 +39,12 @@ const controller: RequestHandler = async (req, res) => {
 
   // create jwt and cookie
   if (!process.env.JWT_SECRET) {
+    console.log("Error: JWT_SECRET env variable missing.");
     res.status(500).send("Could not create authentication token.");
     return;
   }
 
-  const daysToExpire = 14;
+  const daysToExpire = 60;
   const token = jwt.sign({ userId: user.id, username: user.username }, process.env.JWT_SECRET, {
     expiresIn: daysToExpire * 24 * 60 * 60,
   });

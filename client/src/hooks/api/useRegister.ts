@@ -5,9 +5,7 @@ export function useRegister(onSuccess?: (data: string) => void, onError?: (error
   return useMutation(
     (data: { email: string; username: string; password: string }) => fetcher("/auth/register", "POST", data),
     {
-      onSuccess: async (data) => {
-        if (onSuccess) onSuccess(await data.text());
-      },
+      onSuccess,
       onError,
     }
   );

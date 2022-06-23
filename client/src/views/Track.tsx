@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import FormMessage from "@/components/shared/FormMessage";
 import { useTrackSlug } from "@/hooks/api/useTrackSlug";
-import SlugAvatar from "@/components/app/SlugAvatar";
+import GradientAvatar from "@/components/app/GradientAvatar";
 import { Icon } from "@iconify/react";
 import calendarIcon from "@iconify-icons/uil/calender";
 import visitsIcon from "@iconify-icons/uil/eye";
@@ -32,7 +32,7 @@ export default function Track() {
     <main className="flex flex-col justify-center items-center flex-grow">
       <div className="flex flex-col gap-5 md:gap-0 md:flex-row items-center max-w-2xl w-11/12">
         <div className="flex items-center w-full md:w-auto">
-          <SlugAvatar className="w-28 h-28" slug={slug} />
+          <GradientAvatar className="w-28 h-28" seed={slug} />
 
           <div className="flex flex-col gap-0.5 ml-5">
             <a
@@ -45,7 +45,7 @@ export default function Track() {
             </a>
 
             <a
-              className="italic text-gray-700 hover:text-gray-900 hover:underline transition-colors duration-300"
+              className="italic text-gray-700 hover:text-gray-900 hover:underline transition-colors duration-300 max-w-[17rem] sm:max-w-sm whitespace-nowrap text-ellipsis overflow-hidden"
               href={data?.longLink}
               target="_blank"
               rel="norefferer noopener"

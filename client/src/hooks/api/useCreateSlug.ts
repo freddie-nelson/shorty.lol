@@ -6,9 +6,7 @@ export function useCreateSlug(
   onError?: (error: any) => void
 ) {
   return useMutation((data: { longLink: string }) => fetcher("/api/createSlug", "POST", data), {
-    onSuccess: async (data) => {
-      if (onSuccess) onSuccess(await data.json());
-    },
+    onSuccess,
     onError,
   });
 }
