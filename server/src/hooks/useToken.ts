@@ -1,4 +1,4 @@
-import { z } from "@shared/node_modules/zod";
+import { z } from "zod";
 import { usernameSchema } from "@shared/schemas/username";
 import { verify } from "jsonwebtoken";
 
