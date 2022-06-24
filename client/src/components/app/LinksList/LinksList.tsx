@@ -1,5 +1,5 @@
 import { useGetLinks } from "@/hooks/api/useGetLinks";
-import { HTMLAttributes, useState } from "react";
+import { Fragment, HTMLAttributes, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../shared/Button";
 import FormMessage from "../../shared/FormMessage";
@@ -43,10 +43,9 @@ export default function LinksList(props: HTMLAttributes<HTMLDivElement>) {
   const fixedProps = { ...props };
   delete fixedProps.className;
 
-  const [page, setPage] = useState(1);
-  const { isLoading, isError, isPreviousData, data, error } = useGetLinks(page);
+  const { isFetching, hasNextPage, isFetchingNextPage, fetchNextPage, status, data, error } = useGetLinks();
 
-  if (isLoading) {
+  if (status === "loading") {
     return (
       <div>
         <FormMessage purpose="neutral">Loading...</FormMessage>
@@ -54,7 +53,7 @@ export default function LinksList(props: HTMLAttributes<HTMLDivElement>) {
     );
   }
 
-  if (isError) {
+  if (status === "error") {
     return (
       <div>
         <FormMessage purpose="error">{error?.message}</FormMessage>
@@ -77,18 +76,22 @@ export default function LinksList(props: HTMLAttributes<HTMLDivElement>) {
         </thead>
 
         <tbody>
-          {data?.links.map((l) => {
-            return <LinkListItem link={l} key={l.slug} />;
-          })}
+          {data?.pages.map((group, i) => (
+            <Fragment key={i}>
+              {group.links.map((l) => {
+                return <LinkListItem link={l} key={l.slug} />;
+              })}
+            </Fragment>
+          ))}
         </tbody>
       </table>
 
       <Button
         className="w-full py-6 mt-5"
-        disabled={isLoading || isPreviousData || !data?.hasMore}
-        onClick={() => setPage(page + 1)}
+        disabled={!hasNextPage || isFetchingNextPage}
+        onClick={() => fetchNextPage({ pageParam: (data?.pages.length || 0) + 1 })}
       >
-        {isLoading || isPreviousData ? "Loading..." : "Load More"}
+        {isFetchingNextPage ? "Loading..." : hasNextPage ? "Load More" : "No More Links"}
       </Button>
     </div>
   );

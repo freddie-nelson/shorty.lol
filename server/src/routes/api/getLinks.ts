@@ -7,8 +7,9 @@ import { ShortLink } from ".prisma/client";
 const controller: RequestHandler = async (req, res) => {
   const page = Number(req.query.page);
   const perPage = Number(req.query.perPage);
-  if (!page || !perPage || page < 0 || perPage < 0) {
+  if (!page || !perPage || page < 0 || perPage < 0 || perPage > 100) {
     res.status(400).send("Bad query string.");
+    return;
   }
 
   const token = useToken(req.cookies);

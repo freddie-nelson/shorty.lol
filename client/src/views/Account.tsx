@@ -27,7 +27,7 @@ export default function Account() {
   }
 
   return (
-    <main className="flex flex-col flex-grow px-12 py-20">
+    <main className="flex flex-col flex-grow px-0 py-6 sm:px-6 sm:py-14 md:px-12 md:py-20">
       <div className="flex flex-col lg:flex-row lg:items-center w-full">
         <GradientAvatar className="w-full h-28 lg:w-40 lg:h-40" seed={data?.username || "123"} />
 

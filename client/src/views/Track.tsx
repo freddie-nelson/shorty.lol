@@ -7,6 +7,7 @@ import calendarIcon from "@iconify-icons/uil/calender";
 import visitsIcon from "@iconify-icons/uil/eye";
 import Button from "@/components/shared/Button";
 import { useDeleteSlug } from "@/hooks/api/useDeleteSlug";
+import VisitsList from "@/components/app/VisitsList";
 // import { useEditSlug } from "@/hooks/api/useEditSlug";
 
 export default function Track() {
@@ -39,9 +40,9 @@ export default function Track() {
   }
 
   return (
-    <main className="flex flex-col justify-center items-center flex-grow">
-      <div className="flex flex-col gap-5 md:gap-0 md:flex-row items-center max-w-3xl w-11/12">
-        <div className="flex items-center w-full md:w-auto">
+    <main className="flex flex-col justify-center items-center flex-grow px-0 py-6 sm:px-6 sm:py-14 md:px-12 md:py-20">
+      <div className="flex flex-col gap-5 lg:gap-0 lg:flex-row items-center max-w-3xl w-11/12">
+        <div className="flex items-center w-full lg:w-auto">
           <GradientAvatar className="w-28 h-28" seed={slug} />
 
           <div className="flex flex-col gap-0.5 ml-5">
@@ -77,17 +78,17 @@ export default function Track() {
           </div>
         </div>
 
-        <div className="md:ml-auto w-full md:w-auto flex md:flex-col gap-3 text-sm">
+        <div className="md:ml-auto w-full lg:w-auto flex md:flex-col gap-3 text-sm">
           {!data?.editable && (
-            <Link className="flex-grow md:flex-grow-0" to="/register">
+            <Link className="flex-grow lg:flex-grow-0" to="/register">
               <Button className="p-3 w-full">register to edit</Button>
             </Link>
           )}
           {data?.editable && (
             <>
-              {/* <Button className="p-3 flex-grow md:flex-grow-0">edit slug</Button> */}
+              {/* <Button className="p-3 flex-grow lg:flex-grow-0">edit slug</Button> */}
               <Button
-                className="p-3 flex-grow md:flex-grow-0"
+                className="p-3 flex-grow lg:flex-grow-0"
                 purpose="danger"
                 onClick={() => deleteSlugMutation.mutate({ slug })}
               >
@@ -96,6 +97,10 @@ export default function Track() {
             </>
           )}
         </div>
+      </div>
+
+      <div className="max-w-3xl w-11/12 mt-5">
+        <VisitsList slug={slug} />
       </div>
     </main>
   );
