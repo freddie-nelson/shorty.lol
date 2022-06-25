@@ -85,7 +85,7 @@ export default function Nav() {
         <NavLinks />
       )}
       {isMobileOpen && (
-        <div className="absolute top-0 left-0 bg-gray-50 w-full h-full flex justify-center items-center text-center">
+        <div className="absolute top-0 left-0 z-10 bg-gray-50 w-full h-full flex justify-center items-center text-center">
           <button
             className="absolute top-10 right-12 font-bold text-xl text-gray-900 hover:text-blue-500 transition-colors duration-300"
             onClick={() => toggleMobileMenu(false)}
