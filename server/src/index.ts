@@ -14,7 +14,8 @@ app.set("trust proxy", true);
 // middleware
 app.use(
   cors({
-    origin: process.env.NODE_ENV !== "production" ? "http://localhost:3000" : ["https://shorty.lol"],
+    origin:
+      process.env.NODE_ENV !== "production" ? "http://localhost:3000" : ["https://shorty-lol.netlify.app"],
     credentials: true,
   })
 );
